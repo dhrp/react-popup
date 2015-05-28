@@ -12,7 +12,7 @@ Component = React.createClass({
 	displayName: 'PopupAction',
 
 	propTypes: {
-		children: React.PropTypes.renderable.isRequired
+		children: React.PropTypes.node.isRequired
 	},
 
 	getInitialProps: function () {

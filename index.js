@@ -22,7 +22,8 @@ var React          = require('react'),
 		'className'   : null,
 		'noOverlay'   : false,
 		'position'    : false,
-		'wildClasses' : false
+		'wildClasses' : false,
+		'manualClose' : false
 	},
     Manager,
     Component;
@@ -222,7 +223,8 @@ Component = React.createClass({
 				visible   : true,
 				className : popup.className,
 				noOverlay : popup.noOverlay,
-				position  : popup.position
+				position  : popup.position,
+				manualClose: popup.manualClose
 			});
 		});
 
@@ -292,7 +294,9 @@ Component = React.createClass({
 	},
 
 	onClose: function () {
-		Manager.close();
+		if(!this.state.manualClose) {
+			Manager.close();
+		}
 	},
 
 	handleButtonClick: function (action) {

@@ -5,7 +5,7 @@
 'use strict';
 
 var React                  = require('react'),
-    Popup                  = require('../index'),
+    Popup                  = require('./exampleDialog'),
     alertBtn               = document.getElementById('alert'),
     alertWithTitle         = document.getElementById('alertWithTitle'),
     registeredAlertTrigger = document.getElementById('registeredAlertTrigger'),
@@ -57,7 +57,17 @@ prompt.addEventListener('click', function () {
 /** Custom buttons */
 customButtons.addEventListener('click', function () {
 	Popup.create({
-		title: null,
+		title: "two birds on a wire",
+		showHeader: false,
+		showBody: false,
+		showFooter: false,
+		showCustomContent: true,
+		buttonClick: {
+			action: function () {
+				/** This popup will be displayed after this one has closed */
+				Popup.alert('Another popup yada yada');
+			}
+		},
 		content: 'This popup uses the create method directly to get more control. This popup demonstrates custom buttons.',
 		buttons: {
 			left: ['cancel'],

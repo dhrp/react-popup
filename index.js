@@ -32,7 +32,7 @@ var React          = require('react'),
 	Manager,
 	Component;
 
-function Dialog(DialogContent) {
+function Dialog(DialogContent, type) {
 
 	/* If no content to wrap is set, we give it some dummy data */
 	if (!DialogContent) {
@@ -42,6 +42,8 @@ function Dialog(DialogContent) {
 			}
 		})
 	}
+
+
 
 	Manager = assign({}, EventEmitter.prototype, {
 
@@ -71,7 +73,7 @@ function Dialog(DialogContent) {
 			var id = this.active;
 			this.active = null;
 
-			this.emit(CLOSE_EVENT);
+			this.emit(type + "_" + CLOSE_EVENT);
 			this.dispatch();
 
 			this.value = null;
@@ -91,7 +93,7 @@ function Dialog(DialogContent) {
 			/** Set active */
 			this.active = id;
 
-			this.emit(SHOW_EVENT);
+			this.emit(type + "_" + SHOW_EVENT);
 		}
 
 	});
@@ -120,19 +122,19 @@ function Dialog(DialogContent) {
 		statics: {
 
 			addShowListener: function (callback) {
-				Manager.on(SHOW_EVENT, callback);
+				Manager.on(type + "_" + SHOW_EVENT, callback);
 			},
 
 			removeShowListener: function (callback) {
-				Manager.on(SHOW_EVENT, callback);
+				Manager.on(type + "_" + SHOW_EVENT, callback);
 			},
 
 			addCloseListener: function (callback) {
-				Manager.on(CLOSE_EVENT, callback);
+				Manager.on(type + "_" + CLOSE_EVENT, callback);
 			},
 
 			removeCloseListener: function (callback) {
-				Manager.on(CLOSE_EVENT, callback);
+				Manager.on(type + "_" + CLOSE_EVENT, callback);
 			},
 
 			register: function (data) {
@@ -229,7 +231,7 @@ function Dialog(DialogContent) {
 		componentDidMount: function () {
 			var _this = this, popup;
 
-			Manager.on(SHOW_EVENT, function () {
+			Manager.on(type + "_" + SHOW_EVENT, function () {
 				popup = Manager.activePopup();
 
 				_this.setState({
@@ -246,11 +248,13 @@ function Dialog(DialogContent) {
 					showFooter: popup.showFooter,
 					showCustomContent: popup.showCustomContent
 				});
+
+				_this.forceUpdate();
 			});
 
 			_props = this.props;
 
-			Manager.on(CLOSE_EVENT, function () {
+			Manager.on(type + "_" + CLOSE_EVENT, function () {
 				_this.setState(_this.getInitialState());
 			});
 		},
@@ -396,6 +400,7 @@ function Dialog(DialogContent) {
 					dialogContent = (
 						<DialogContent
 							{...this.props}
+							{...this.state}
 							title={this.state.title}
 							content={this.state.content}
 							className={this.className('box__footer')}
@@ -407,7 +412,7 @@ function Dialog(DialogContent) {
 							defaultOk={this.props.defaultOk}
 							defaultCancel={this.props.defaultCancel}
 							buttons={this.state.buttons}
-						/>
+							/>
 					)
 				}
 

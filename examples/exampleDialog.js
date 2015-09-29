@@ -20,6 +20,7 @@ var DialogContent = React.createClass({
     }
 });
 
-var LoginDialog = Dialog(DialogContent);
+// 'example' here functions as a namespace, so you can have different flavors of windows with events
+var ExampleDialog = Dialog(DialogContent, 'example');
 
-module.exports = LoginDialog;
+module.exports = ExampleDialog;

@@ -1,6 +1,10 @@
 React popup component
 ===========
 
+I've actually stopped using this component, in favor of https://github.com/rackt/react-modal, which is easier to use and easier to extend.
+
+
+
 ![](https://dl.dropboxusercontent.com/u/6306766/react-popup.png)
 
 ## Install
